@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "hackerreality": {
+      "schemaPath": "server/src/schema.graphql",
+      "extensions": {
+        "endpoints": {
+          "localhost": "http://localhost:4000"
+        }
+      }
+    }
+  }
+}

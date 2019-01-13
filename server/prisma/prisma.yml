@@ -1,0 +1,10 @@
+datamodel: datamodel.prisma
+generate:
+  - generator: javascript-client
+    output: ../src/generated/prisma-client
+secret: ${env:PRISMA_SECRET}
+hooks:
+  post-deploy:
+    - prisma generate
+
+endpoint: https://eu1.prisma.sh/olga-isakova-0b018c/hackerreality/dev
