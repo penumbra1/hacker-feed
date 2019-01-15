@@ -1,9 +1,26 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
+import gql from "graphql-tag";
+import { navigate } from "@reach/router";
 import Form from "./Form";
 import Input from "./Input";
 import Button from "./Button";
-import { AUTH_TOKEN } from "../constants";
+
+const SIGNUP_MUTATION = gql`
+  mutation SignupMutation($email: String!, $password: String!, $name: String!) {
+    signup(email: $email, password: $password, name: $name) {
+      token
+    }
+  }
+`;
+
+const LOGIN_MUTATION = gql`
+  mutation LoginMutation($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+    }
+  }
+`;
 
 class Login extends Component {
   state = {
@@ -21,29 +38,19 @@ class Login extends Component {
     this.setState(({ login }) => ({ login: !login }));
   };
 
-  async handleSubmit(e) {}
-
-  saveUserData(token) {}
+  onMutationCompleted = async data => {
+    const { token } = this.state.login ? data.login : data.signup;
+    this.props.onLogin(token);
+    navigate("/");
+  };
 
   render() {
     const { login, email, password, username } = this.state;
     return (
       <Form
-        header={
-          <>
-            <h1 className="f4 mv3">{login ? "Log in" : "Sign up"}</h1>
-            <span className="ml-auto">
-              {"or "}
-              <a
-                href="#"
-                onClick={this.toggleLogin}
-                className="link dim light-purple"
-              >
-                {login ? "create a new account" : "log in to your account"}
-              </a>
-            </span>
-          </>
-        }
+        title={login ? "Log in" : "Sign up"}
+        onSwitch={this.toggleLogin}
+        switchText={login ? "create a new account" : "log in to your account"}
       >
         {!login && (
           <Input
@@ -71,13 +78,17 @@ class Login extends Component {
           value={password}
           onChange={this.handleChange}
         />
-        {/* <Mutation
-          mutation={{}}
-          variables={{}}
-          onCompleted={() => this.props.history.push("/")}
+        <Mutation
+          mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
+          variables={{ email, password, name: username }}
+          onCompleted={this.onMutationCompleted}
         >
-          {postMutation => <Button onClick={postMutation}>Submit</Button>}
-        </Mutation> */}
+          {signupOrLoginMutation => (
+            <Button onClick={signupOrLoginMutation}>
+              {login ? "Log in" : "Sign up"}
+            </Button>
+          )}
+        </Mutation>
       </Form>
     );
   }

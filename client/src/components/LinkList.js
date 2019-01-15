@@ -30,7 +30,7 @@ const LinkList = props => {
         const linksToRender = data.feed.links;
 
         return (
-          <div>
+          <div className="mv3 mv4-ns">
             {linksToRender.length > 1
               ? linksToRender.map(link => <Link key={link.id} link={link} />)
               : "Nothing here yet..."}

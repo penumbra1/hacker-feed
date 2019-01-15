@@ -1,49 +1,43 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
-import Button from "./Button";
-import { AUTH_TOKEN } from "../constants";
+import { AuthContext } from "./App";
 
-const linkStyles = "link mh1 no-underline gray hover-black pointer";
+const linkStyles = "link ph2 pv3 no-underline gray hover-black pointer";
 
+const applyActiveStyle = ({ isCurrent }) => {
+  return { className: `${linkStyles}${isCurrent && " light-purple"}` };
+};
 const NavLink = ({ children, ...linkProps }) => (
-  <Link
-    exact
-    className={linkStyles}
-    activeClassName="light-purple"
-    ariaCurrent="page"
-    {...linkProps}
-  >
+  <Link className={linkStyles} getProps={applyActiveStyle} {...linkProps}>
     {children}
   </Link>
 );
 
 class Header extends Component {
-  handleLogout = () => {
-    localStorage.removeItem(AUTH_TOKEN);
-    this.props.history.push(`/`);
-  };
+  static contextType = AuthContext;
 
   render() {
-    const authToken = localStorage.getItem(AUTH_TOKEN);
-    // const authToken = true;
+    const { isLoggedIn } = this.context;
+    console.log(this.context);
     return (
-      <header className="flex flex-wrap pa1 mb3 items-center nowrap mw8">
-        <h1 className="f4 fw7 mr3 code order-0">
-          <span className="mr1">Hacker feed</span>▐
+      <header className="flex flex-wrap mb3 items-center nowrap mw8">
+        <h1 className="f4 fw7 mr3 code ">
+          <span className="mr1">Hacker feed</span>
+          <span aria-hidden>▐</span>
         </h1>
-        <nav className="flex items-center fixed bottom-2 static-ns">
+        <nav className="flex items-center fixed bottom-1 static-ns">
           <NavLink to="/">latest</NavLink>
-          <span className="mh1 moon-gray" aria-hidden>
+          <span className="moon-gray" aria-hidden>
             ◼
           </span>
-          <NavLink to="/create">submit</NavLink>
-          <span className="mh1 moon-gray" aria-hidden>
+          <NavLink to="/create">post</NavLink>
+          <span className="moon-gray" aria-hidden>
             ◼
           </span>
-          {authToken ? (
+          {isLoggedIn ? (
             <button
               className={`${linkStyles} bn pa0 bg-transparent`}
-              onClick={this.handleLogout}
+              onClick={this.props.onLogout}
             >
               log out
             </button>
