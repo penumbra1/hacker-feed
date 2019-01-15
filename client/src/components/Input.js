@@ -3,7 +3,7 @@ import React from "react";
 const Input = ({ labelText, id, className, ...inputProps }) => {
   return (
     <>
-      <label htmlFor={id} className={`f6 b db mb2 ${className}`}>
+      <label htmlFor={id} className={`f6 code ttu tracked db mb2 ${className}`}>
         {labelText}
       </label>
       <input
