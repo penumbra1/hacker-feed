@@ -7,4 +7,4 @@ hooks:
   post-deploy:
     - prisma generate
 
-endpoint: https://eu1.prisma.sh/olga-isakova-0b018c/hackerreality/dev
+endpoint: ${env:PRISMA_ENDPOINT}

@@ -10,12 +10,12 @@ class App extends Component {
     return (
       <div className="system-sans-serif flex flex-column justify-start pv3 ph4 ph5-m ph6-l mr-auto ml-auto mw8">
         <Header />
-        <div>
+        <main>
           <Switch>
             <Route exact path="/" component={LinkList} />
             <Route exact path="/create" component={CreateLink} />
           </Switch>
-        </div>
+        </main>
       </div>
     );
   }

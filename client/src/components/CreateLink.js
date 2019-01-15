@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
+import Form from "./Form";
+import Input from "./Input";
+import Button from "./Button";
 
 const POST_MUTATION = gql`
   mutation PostMutation($description: String!, $url: String!) {
@@ -16,35 +19,27 @@ const POST_MUTATION = gql`
 class CreateLink extends Component {
   state = { description: "", url: "" };
 
-  onDescriptionChange = e => this.setState({ description: e.target.value });
-
-  onUrlChange = e => this.setState({ url: e.target.value });
+  handleChange = e => this.setState({ [e.target.id]: e.target.value });
 
   render() {
     const { description, url } = this.state;
 
     return (
-      <form className="pv4 ph2 mw6">
-        <label htmlFor="url" className="f6 b db mb2">
-          URL
-        </label>
-        <input
-          type="text"
+      <Form>
+        <Input
+          labelText="URL"
           id="url"
-          className="input-reset ba b--black-50 pa2 mb2 db w-100"
+          type="url"
           value={url}
-          onChange={this.onUrlChange}
+          onChange={this.handleChange}
           placeholder="Your link"
         />
-        <label htmlFor="description" className="f6 b db mb2">
-          Description
-        </label>
-        <input
-          type="text"
+        <Input
+          labelText="Description"
           id="description"
-          className="input-reset ba b--black-50 pa2 mb2 db w-100"
+          type="text"
           value={description}
-          onChange={this.onDescriptionChange}
+          onChange={this.handleChange}
           placeholder="A gist of what it's about"
         />
         <Mutation
@@ -52,17 +47,9 @@ class CreateLink extends Component {
           variables={{ description, url }}
           onCompleted={() => this.props.history.push("/")}
         >
-          {postMutation => (
-            <button
-              className="button code f6 link dim br1 ph3 pv2 mv2 dib washed-yellow bg-light-purple"
-              type="button"
-              onClick={postMutation}
-            >
-              Submit
-            </button>
-          )}
+          {postMutation => <Button onClick={postMutation}>Submit</Button>}
         </Mutation>
-      </form>
+      </Form>
     );
   }
 }

@@ -4,7 +4,7 @@ import { withRouter } from "react-router";
 
 const Header = () => {
   return (
-    <div className="flex pa1 justify-between items-center nowrap mw8">
+    <header className="flex pa1 mb3 justify-between items-center nowrap mw8">
       <h1 className="f4 fw7 mr3 code">
         <span className="mr1">Hacker feed</span>▐
       </h1>
@@ -27,7 +27,7 @@ const Header = () => {
           submit
         </NavLink>
       </nav>
-    </div>
+    </header>
   );
 };
 
