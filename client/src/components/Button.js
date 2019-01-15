@@ -1,10 +1,18 @@
 import React from "react";
 
-const Button = ({ children, className, ...buttonProps }) => {
+export const buttonStyles =
+  "button code f6 link dim br1 ph3 pv2 mv2 ml-auto db pointer";
+const buttonTheme = "washed-yellow bg-light-purple";
+
+const Button = ({ children, className, line, ...buttonProps }) => {
   return (
     <button
       type="button" // prevents form submission
-      className={`button code f6 link dim br1 ph3 pv2 mv2 db self-end washed-yellow bg-light-purple ${className}`}
+      className={`${buttonStyles} ${
+        line
+          ? "bg-transparent ba b--light-purple light-purple"
+          : "bn washed-blue bg-light-purple"
+      } ${className}`}
       {...buttonProps}
     >
       {children}

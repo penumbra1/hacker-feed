@@ -8,7 +8,7 @@ const Input = ({ labelText, id, className, ...inputProps }) => {
       </label>
       <input
         id={id}
-        className="input-reset ba b--black-50 pa2 mb2 db w-100"
+        className="input-reset ba br1 b--black-50 pa2 mb3 db w-100"
         {...inputProps}
       />
     </>

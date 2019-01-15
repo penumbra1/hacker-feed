@@ -19,13 +19,15 @@ const POST_MUTATION = gql`
 class CreateLink extends Component {
   state = { description: "", url: "" };
 
-  handleChange = e => this.setState({ [e.target.id]: e.target.value });
+  handleChange(e) {
+    this.setState({ [e.target.id]: e.target.value });
+  }
 
   render() {
     const { description, url } = this.state;
 
     return (
-      <Form>
+      <Form header={<h1 className="f4 mv3">Got something to share?</h1>}>
         <Input
           labelText="URL"
           id="url"
