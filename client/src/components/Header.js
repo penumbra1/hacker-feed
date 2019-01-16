@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
-import { AuthContext } from "./App";
+import { AuthContext } from "../auth";
 
 const linkStyles = "link ph2 pv3 no-underline gray hover-black pointer";
 

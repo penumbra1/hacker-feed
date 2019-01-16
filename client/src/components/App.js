@@ -4,10 +4,8 @@ import Header from "./Header";
 import LinkList from "./LinkList";
 import CreateLink from "./CreateLink";
 import Login from "./Login";
-import { AUTH_TOKEN } from "../constants";
+import { AUTH_TOKEN, AuthContext } from "../auth";
 import "../custom.css";
-
-export const AuthContext = React.createContext({ isLoggedIn: false });
 
 class App extends Component {
   state = {
