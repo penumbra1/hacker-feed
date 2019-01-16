@@ -28,7 +28,7 @@ class App extends Component {
   handleLogin = token => {
     localStorage.setItem(AUTH_TOKEN, token);
     this.setState({ isLoggedIn: true });
-    navigate(`/`);
+    window.history.back();
   };
 
   render() {

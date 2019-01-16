@@ -21,6 +21,8 @@ Final code can be found [here](https://github.com/howtographql/react-apollo), bu
 
 # Notes
 
+### Context
+
 **NB**: storing context in the same file as components can lead to a circular dependency (see [issue](https://github.com/facebook/react/issues/13969)), e.g. if I place AuthContext in App.js and import it in Header.js, which is itself imported in App.js.
 
 ### JSON Web Tokens

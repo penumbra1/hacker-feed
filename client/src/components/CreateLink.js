@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
-import { navigate } from "@reach/router";
 import Form from "./Form";
 import Input from "./Input";
 import Button from "./Button";
+import { AuthContext } from "../auth";
 
 const POST_MUTATION = gql`
   mutation PostMutation($description: String!, $url: String!) {
@@ -18,6 +18,8 @@ const POST_MUTATION = gql`
 `;
 
 class CreateLink extends Component {
+  static contextType = AuthContext;
+
   state = { description: "", url: "" };
 
   handleChange = e => {
@@ -26,7 +28,14 @@ class CreateLink extends Component {
 
   render() {
     const { description, url } = this.state;
+    const { isLoggedIn } = this.context;
 
+    if (!isLoggedIn) {
+      // not using Redirect here
+      // as it won't leave a /create entry to go back to after logging in
+      this.props.navigate("/login");
+      return null;
+    }
     return (
       <Form title="Got something to share?">
         <Input
@@ -46,7 +55,7 @@ class CreateLink extends Component {
         <Mutation
           mutation={POST_MUTATION}
           variables={{ description, url }}
-          onCompleted={() => navigate("/")}
+          onCompleted={() => this.props.navigate("/")}
         >
           {postMutation => <Button onClick={postMutation}>Submit</Button>}
         </Mutation>
