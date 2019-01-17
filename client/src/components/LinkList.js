@@ -5,7 +5,7 @@ import gql from "graphql-tag";
 import Link from "./Link";
 
 const FEED_QUERY = gql`
-  {
+  query getFeed {
     feed {
       links {
         id

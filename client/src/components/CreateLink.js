@@ -56,6 +56,7 @@ class CreateLink extends Component {
           mutation={POST_MUTATION}
           variables={{ description, url }}
           onCompleted={() => this.props.navigate("/")}
+          refetchQueries={["getFeed"]}
         >
           {postMutation => <Button onClick={postMutation}>Submit</Button>}
         </Mutation>
