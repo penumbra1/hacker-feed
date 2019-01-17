@@ -8,16 +8,18 @@ Final code can be found [here](https://github.com/howtographql/react-apollo), bu
 2. Experiment with Tachyons, clean up the markup ✔️ (WIP)
 3. Input validation & autocomplete ✔️
 4. Move to Reach Router due to link focus issues on route change (see [issue](https://github.com/ReactTraining/react-router/issues/5210)) ✔️
-5. Add auth context to store a Boolean for whether the user is logged in ✔️
+5. Add auth context to store the name of the current user ✔️
 6. Add a [custom directive](https://codeburst.io/use-custom-directives-to-protect-your-graphql-apis-a78cbbe17355) instead of getUserId() in utils.
 7. Pagination ([docs](https://www.apollographql.com/docs/react/features/pagination.html))
 8. Add mutation states with UI feedback
-9. Add a redirect to login and back for unauth-d users on /create (see Fullstack React p.439)
-10. Switch from graphql-yoga to apollo-server (see [discussion](https://github.com/prisma/graphql-yoga/issues/449))
-11. Add comments and user dashboard with posts
-12. Add moderator role: bans users, hides inappropriate posts
-13. TS?
-14. Expire the token, add a query to check if it's valid on app startup.
+9. Add a redirect to login and back for unauth-d users on /create ✔️
+10. 404 page
+11. Error in signup if email is already registered
+12. Switch from graphql-yoga to apollo-server (see [discussion](https://github.com/prisma/graphql-yoga/issues/449))
+13. Add comments and user dashboard with posts
+14. Add moderator role: bans users, hides inappropriate posts (see [article](https://blog.apollographql.com/authorization-in-graphql-452b1c402a9))
+15. TS?
+16. Expire the token, add a query to check if it's valid on app startup.
 
 # Notes
 
