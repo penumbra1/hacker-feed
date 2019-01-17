@@ -19,12 +19,6 @@ const USER_QUERY = gql`
 `;
 
 class App extends Component {
-  componentDidMount() {
-    // For now I'm assuming a token is valid until explicitly removed by the client
-    // Later I'll add a query to the server to check if the token is still valid
-    const token = localStorage.getItem(AUTH_TOKEN);
-  }
-
   handleLogout = () => {
     localStorage.removeItem(AUTH_TOKEN);
   };
