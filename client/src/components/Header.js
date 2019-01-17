@@ -3,7 +3,6 @@ import { Link } from "@reach/router";
 import { AuthContext } from "../auth";
 
 const linkStyles = "link ph2 pv3 no-underline gray hover-black pointer";
-
 const applyActiveStyle = ({ isCurrent }) => {
   return { className: `${linkStyles}${isCurrent && " light-purple"}` };
 };
@@ -17,8 +16,7 @@ class Header extends Component {
   static contextType = AuthContext;
 
   render() {
-    const { isLoggedIn } = this.context;
-    console.log(this.context);
+    const { username } = this.context;
     return (
       <header className="flex flex-wrap mb3 items-center nowrap mw8">
         <h1 className="f4 fw7 mr3 code ">
@@ -34,13 +32,8 @@ class Header extends Component {
           <span className="moon-gray" aria-hidden>
             ◼
           </span>
-          {isLoggedIn ? (
-            <button
-              className={`${linkStyles} bn pa0 bg-transparent`}
-              onClick={this.props.onLogout}
-            >
-              log out
-            </button>
+          {username ? (
+            <NavLink to="/account">account</NavLink>
           ) : (
             <NavLink to="/login">log in</NavLink>
           )}

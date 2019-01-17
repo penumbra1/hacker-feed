@@ -34,22 +34,22 @@ class Login extends Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  toggleLogin = () => {
+  toggleLoginOrSignup = () => {
     this.setState(({ login }) => ({ login: !login }));
   };
 
-  onMutationCompleted = async data => {
+  onMutationCompleted = data => {
     const { token } = this.state.login ? data.login : data.signup;
     this.props.onLogin(token);
-    navigate("/");
   };
 
   render() {
     const { login, email, password, username } = this.state;
+
     return (
       <Form
         title={login ? "Log in" : "Sign up"}
-        onSwitch={this.toggleLogin}
+        onSwitch={this.toggleLoginOrSignup}
         switchText={login ? "create a new account" : "log in to your account"}
       >
         {!login && (
@@ -58,6 +58,7 @@ class Login extends Component {
             id="username"
             type="text"
             value={username}
+            required
             onChange={this.handleChange}
           />
         )}
@@ -67,6 +68,7 @@ class Login extends Component {
           type="email"
           autoComplete="username"
           value={email}
+          required
           onChange={this.handleChange}
         />
         <Input
@@ -76,6 +78,7 @@ class Login extends Component {
           autoComplete={login ? "current-password" : "new-password"}
           minLength={6}
           value={password}
+          required
           onChange={this.handleChange}
         />
         <Mutation

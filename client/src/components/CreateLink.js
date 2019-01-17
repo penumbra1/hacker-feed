@@ -28,14 +28,15 @@ class CreateLink extends Component {
 
   render() {
     const { description, url } = this.state;
-    const { isLoggedIn } = this.context;
+    const { username } = this.context;
 
-    if (!isLoggedIn) {
+    if (!username) {
       // not using Redirect here
       // as it won't leave a /create entry to go back to after logging in
       this.props.navigate("/login");
       return null;
     }
+
     return (
       <Form title="Got something to share?">
         <Input
