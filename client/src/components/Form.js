@@ -1,8 +1,18 @@
 import React from "react";
 
-const Form = ({ className, title, onSwitch, switchText, children }) => {
+const Form = ({
+  className,
+  title,
+  onSwitch,
+  switchText,
+  children,
+  ...formProps
+}) => {
   return (
-    <form className={`flex flex-column mv4-5 pv4 ph2 measure-ns ${className}`}>
+    <form
+      className={`flex flex-column mv4-5 pv4 ph2 measure-ns ${className}`}
+      {...formProps}
+    >
       <div className="flex items-baseline mb3">
         <h1 className="f4 mv3 athelas">{title}</h1>
         {switchText && (
