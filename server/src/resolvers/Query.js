@@ -1,3 +1,5 @@
+const { getUserId } = require("../utils");
+
 async function feed(parent, args, context) {
   const count = await context.prisma
     .linksConnection({
@@ -24,6 +26,25 @@ async function feed(parent, args, context) {
   };
 }
 
+async function currentUser(parent, args, context) {
+  let userId;
+  try {
+    userId = getUserId(context);
+  } catch (e) {
+    return null; // not authenticated - invalid token
+  }
+
+  const user = await context.prisma.user({
+    id: userId
+  });
+  if (!user) {
+    return null; // valid token, but no such user in DB
+  }
+
+  return user;
+}
+
 module.exports = {
-  feed
+  feed,
+  currentUser
 };
