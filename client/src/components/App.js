@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Router, navigate } from "@reach/router";
+import { Router } from "@reach/router";
 import gql from "graphql-tag";
 import Header from "./Header";
 import LinkList from "./LinkList";
@@ -9,6 +9,7 @@ import Account from "./Account";
 import { AUTH_TOKEN, AuthContext } from "../auth";
 import "../custom.css";
 import { Query } from "react-apollo";
+import NotFound from "./NotFound";
 
 const USER_QUERY = gql`
   query getCurrentUser {
@@ -29,15 +30,11 @@ class App extends Component {
 
   render() {
     return (
-      <Query query={USER_QUERY} fetchPolicy="no-cache">
+      <Query query={USER_QUERY} fetchPolicy="cache-and-network">
         {({ loading, error, data, refetch, client }) => {
-          if (loading) return <div>"Loading..."</div>;
           if (error) {
             console.error(error);
-            // return null;
-            // return (
-            //   <div>"Something went wrong, please try refreshing the page"</div>
-            // );
+            // Fall through to rendering with no data
           }
           const { currentUser } = data;
           const username = currentUser ? currentUser.name : null;
@@ -46,6 +43,7 @@ class App extends Component {
               <div className="sans-serif flex flex-column justify-start pv3 ph4 ph5-m ph7-l mr-auto ml-auto mw8">
                 <Header />
                 <main>
+                  {/* {loading && <div>"Loading..."</div>} */}
                   <Router>
                     <LinkList path="/" />
                     <CreateLink path="/create" />
@@ -66,6 +64,7 @@ class App extends Component {
                         refetch().then(() => window.history.back());
                       }}
                     />
+                    <NotFound default />
                   </Router>
                 </main>
               </div>
