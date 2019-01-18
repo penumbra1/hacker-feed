@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
-import { navigate } from "@reach/router";
 import Form from "./Form";
 import Input from "./Input";
 import Button from "./Button";

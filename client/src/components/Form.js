@@ -1,4 +1,5 @@
 import React from "react";
+import Headline from "./Headline";
 
 const Form = ({
   className,
@@ -10,11 +11,11 @@ const Form = ({
 }) => {
   return (
     <form
-      className={`flex flex-column mv4-5 pv4 ph2 measure-ns ${className}`}
+      className={`flex flex-column mv4-5 pv4 measure-ns ${className}`}
       {...formProps}
     >
-      <div className="flex items-baseline mb3">
-        <h1 className="f4 mv3 athelas">{title}</h1>
+      <div className="flex items-baseline">
+        <Headline>{title}</Headline>
         {switchText && (
           <span className="ml-auto">
             {"or "}

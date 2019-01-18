@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import { Redirect } from "@reach/router";
 import { AuthContext } from "../auth";
 import Button from "./Button";
-import { Redirect } from "@reach/router";
+import Headline from "./Headline";
 
 class Account extends Component {
   static contextType = AuthContext;
@@ -20,8 +21,8 @@ class Account extends Component {
     if (username === null) return <Redirect from="/account" to="/login" />;
 
     return (
-      <div className="tc">
-        <h1>{`Hi there, ${username}!`}</h1>
+      <div className="mv4-5 pv4 tc">
+        <Headline>{`Hi there, ${username}!`}</Headline>
         <Button onClick={this.handleLogoutClick} className="mr-auto">
           Log out
         </Button>
