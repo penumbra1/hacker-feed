@@ -2,7 +2,7 @@ import React from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
-import Link from "./Link";
+import LinkListItem from "./LinkListItem";
 
 const FEED_QUERY = gql`
   query getFeed {
@@ -12,6 +12,16 @@ const FEED_QUERY = gql`
         createdAt
         url
         description
+        postedBy {
+          id
+          name
+        }
+        votes {
+          id
+          user {
+            id
+          }
+        }
       }
     }
   }
@@ -32,7 +42,9 @@ const LinkList = props => {
         return (
           <div className="mv3 mv4-ns">
             {linksToRender.length > 1
-              ? linksToRender.map(link => <Link key={link.id} link={link} />)
+              ? linksToRender.map(link => (
+                  <LinkListItem key={link.id} {...link} />
+                ))
               : "Nothing here yet..."}
           </div>
         );
