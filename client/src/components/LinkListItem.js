@@ -37,15 +37,17 @@ const LinkInfo = ({ votes, postedBy, createdAt }) => (
 class LinkListItem extends Component {
   static contextType = AuthContext;
 
-  upvote = () => {};
-
   render() {
-    const isLoggedIn = !!this.context.username;
-    const { id, url, description, ...metadata } = this.props;
+    const isLoggedIn = !!this.context.userId;
+    const { id: linkId, url, description, votes, ...metadata } = this.props;
+    const voteByCurrentUser = votes.find(
+      vote => vote.user.id === this.context.userId
+    );
+    const voteId = voteByCurrentUser ? voteByCurrentUser.id : null;
     return (
       <div className="mv3">
-        {isLoggedIn && <UpvoteButton id={id} />}
-        <LinkInfo {...metadata} />
+        {isLoggedIn && <UpvoteButton voteId={voteId} linkId={linkId} />}
+        <LinkInfo votes={votes} {...metadata} />
         <Link url={url} description={description} />
       </div>
     );

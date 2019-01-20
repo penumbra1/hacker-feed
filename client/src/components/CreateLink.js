@@ -1,21 +1,10 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
+import { POST_MUTATION } from "../graphql";
 import Form from "./Form";
 import Input from "./Input";
 import Button from "./Button";
 import { AuthContext } from "../auth";
-
-const POST_MUTATION = gql`
-  mutation PostMutation($description: String!, $url: String!) {
-    post(description: $description, url: $url) {
-      id
-      createdAt
-      url
-      description
-    }
-  }
-`;
 
 class CreateLink extends Component {
   static contextType = AuthContext;

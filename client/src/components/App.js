@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Router } from "@reach/router";
-import gql from "graphql-tag";
+import { Query } from "react-apollo";
+import { USER_QUERY } from "../graphql";
 import Header from "./Header";
 import LinkList from "./LinkList";
 import CreateLink from "./CreateLink";
@@ -8,16 +9,7 @@ import Login from "./Login";
 import Account from "./Account";
 import { AUTH_TOKEN, AuthContext } from "../auth";
 import "../custom.css";
-import { Query } from "react-apollo";
 import NotFound from "./NotFound";
-
-const USER_QUERY = gql`
-  query getCurrentUser {
-    currentUser {
-      name
-    }
-  }
-`;
 
 class App extends Component {
   handleLogout = () => {
@@ -38,8 +30,9 @@ class App extends Component {
           }
           const { currentUser } = data;
           const username = currentUser ? currentUser.name : null;
+          const userId = currentUser ? currentUser.id : null;
           return (
-            <AuthContext.Provider value={{ username }}>
+            <AuthContext.Provider value={{ username, userId }}>
               <div className="sans-serif flex flex-column justify-start pv3 ph4 ph5-m ph7-l mr-auto ml-auto mw8">
                 <Header />
                 <main>
@@ -59,9 +52,10 @@ class App extends Component {
                     />
                     <Login
                       path="/login"
-                      onLogin={token => {
+                      onLogin={async token => {
                         this.handleLogin(token);
-                        refetch().then(() => window.history.back());
+                        await refetch();
+                        window.history.back();
                       }}
                     />
                     <NotFound default />

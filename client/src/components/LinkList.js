@@ -1,31 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
-import gql from "graphql-tag";
-
+import { FEED_QUERY } from "../graphql";
 import LinkListItem from "./LinkListItem";
-
-const FEED_QUERY = gql`
-  query getFeed {
-    feed {
-      links {
-        id
-        createdAt
-        url
-        description
-        postedBy {
-          id
-          name
-        }
-        votes {
-          id
-          user {
-            id
-          }
-        }
-      }
-    }
-  }
-`;
 
 const LinkList = props => {
   return (

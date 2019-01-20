@@ -1,26 +1,19 @@
 import React, { Component } from "react";
-import gql from "graphql-tag";
+import { FEED_QUERY, VOTE_MUTATION, UNVOTE_MUTATION } from "../graphql";
 import { Mutation } from "react-apollo";
 
-const VOTE_MUTATION = gql`
-  mutation VoteMutation($linkId: ID!) {
-    vote(linkId: $linkId) {
-      id
-      link {
-        votes {
-          id
-        }
-      }
-    }
-  }
-`;
-
-const UpvoteButton = ({ id }) => (
-  <Mutation mutation={VOTE_MUTATION} variables={{ linkId: id }}>
+const UpvoteButton = ({ voteId, linkId }) => (
+  <Mutation
+    mutation={voteId ? UNVOTE_MUTATION : VOTE_MUTATION}
+    variables={{ linkId }}
+    context={{ debounceKey: 1 }}
+  >
     {voteMutation => (
       <button
-        className="link f5 pl0 pr1 bn bg-transparent moon-gray hover-black pointer"
-        aria-label="Upvote"
+        className={`link f5 pl0 pr1 bn bg-transparent hover-black pointer ${
+          voteId ? "light-purple" : "moon-gray"
+        }`}
+        aria-label={voteId ? "Remove upvote" : "Upvote"}
         onClick={voteMutation}
       >
         <span aria-hidden>▲</span>
