@@ -42,23 +42,69 @@ async function login(parent, args, context) {
 
 async function vote(parent, args, context) {
   const userId = getUserId(context);
-  const linkExists = await context.prisma.$exists.vote({
+  const voteExists = await context.prisma.$exists.vote({
     user: { id: userId },
     link: { id: args.linkId }
   });
-  if (linkExists) {
+  if (voteExists) {
     throw new Error(`Already voted for link: ${args.linkId}`);
   }
 
-  return context.prisma.createVote({
-    user: { connect: { id: userId } },
-    link: { connect: { id: args.linkId } }
+  const votedLink = await context.prisma.updateLink({
+    where: {
+      id: args.linkId
+    },
+    data: {
+      votes: {
+        create: [
+          {
+            user: {
+              connect: {
+                id: userId
+              }
+            }
+          }
+        ]
+      }
+    }
   });
+
+  return votedLink;
+}
+
+async function unvote(parent, args, context) {
+  const userId = getUserId(context);
+  // Unlike "vote", "votes" query uses VoteWhereInput and doesn't require a vote ID
+  const votesByUser = await context.prisma.votes({
+    where: {
+      link: { id: args.linkId },
+      user: { id: userId }
+    }
+  });
+  if (!votesByUser[0]) {
+    throw new Error(`User hasn't voted for this link yet: ${args.linkId}`);
+  }
+
+  const unvotedLink = await context.prisma.updateLink({
+    where: {
+      id: args.linkId
+    },
+    data: {
+      votes: {
+        delete: {
+          id: votesByUser[0].id
+        }
+      }
+    }
+  });
+
+  return unvotedLink;
 }
 
 module.exports = {
   post,
   signup,
   login,
-  vote
+  vote,
+  unvote
 };
