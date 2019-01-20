@@ -3,8 +3,10 @@ import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from "apollo-client";
+import { ApolloLink } from "apollo-link";
 import { createHttpLink } from "apollo-link-http";
 import { setContext } from "apollo-link-context";
+import DebounceLink from "apollo-link-debounce";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import App from "./components/App";
 import { AUTH_TOKEN } from "./auth";
@@ -23,8 +25,12 @@ const authLink = setContext((req, { headers }) => {
   };
 });
 
+const debounceLink = new DebounceLink(200);
+
+const link = ApolloLink.from([debounceLink, authLink, httpLink]);
+
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link,
   cache: new InMemoryCache()
 });
 
