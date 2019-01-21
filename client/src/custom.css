@@ -5,3 +5,13 @@
 .mv4-5 {
   margin: 5rem 0;
 }
+
+.f-10 {
+  font-size: 10rem;
+}
+
+@media screen and (min-width: 56em) {
+  .static-nsm {
+    position: static;
+  }
+}

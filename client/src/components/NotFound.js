@@ -3,16 +3,16 @@ import Headline from "./Headline";
 
 const NotFound = () => {
   return (
-    <div className="mv4-5 pv4 tc">
-      <Headline className="f4 mv3 athelas">
+    <div className="mv4-5 pv4 tc relative">
+      <Headline>
+        <div
+          className="code normal f-10 light-purple o-10 absolute right-0 left-0"
+          style={{ transform: "scaleY(2.8)", zIndex: -1 }}
+        >
+          404
+        </div>
         You have ventured into the unknown...
       </Headline>
-      <div
-        class="code f-6 light-purple o-10 nt4"
-        style={{ transform: "scale(1.8, 4.2)" }}
-      >
-        404
-      </div>
     </div>
   );
 };
