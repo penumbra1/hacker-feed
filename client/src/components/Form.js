@@ -2,7 +2,7 @@ import React from "react";
 import Headline from "./Headline";
 
 const Form = ({
-  className,
+  className = "",
   title,
   onSwitch,
   switchText,
@@ -15,7 +15,7 @@ const Form = ({
       {...formProps}
     >
       <div className="flex items-baseline">
-        <Headline>{title}</Headline>
+        {title && <Headline>{title}</Headline>}
         {switchText && (
           <span className="ml-auto">
             {"or "}

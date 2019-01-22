@@ -1,17 +1,13 @@
 import React from "react";
 
 export const buttonStyles =
-  "button f6 code ttu tracked link dim br1 ph3 pv2 mv2 ml-auto db pointer";
+  "button f6 code ttu tracked link dim bg-light-purple ba b--transparent washed-blue br1 ph3 pv2 mt2 ml-auto db pointer";
 
-const Button = ({ children, className, line, ...buttonProps }) => {
+const Button = ({ children, className = "", ...buttonProps }) => {
   return (
     <button
       type="button" // prevents form submission
-      className={`${buttonStyles} ${
-        line
-          ? "bg-transparent ba b--light-purple light-purple"
-          : "bg-light-purple bn washed-blue"
-      } ${className}`}
+      className={`${buttonStyles} ${className}`}
       {...buttonProps}
     >
       {children}

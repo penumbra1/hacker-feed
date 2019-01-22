@@ -1,25 +1,15 @@
 import React, { Component } from "react";
-import { FEED_QUERY, VOTE_MUTATION, UNVOTE_MUTATION } from "../graphql";
-import { Mutation } from "react-apollo";
 
-const UpvoteButton = ({ voteId, linkId }) => (
-  <Mutation
-    mutation={voteId ? UNVOTE_MUTATION : VOTE_MUTATION}
-    variables={{ linkId }}
-    context={{ debounceKey: 1 }}
+const UpvoteButton = ({ isUpvoted, onClick }) => (
+  <button
+    className={`link f5 pl0 pr1 bn bg-transparent hover-black pointer ${
+      isUpvoted ? "light-purple" : "moon-gray"
+    }`}
+    aria-label={isUpvoted ? "Remove upvote" : "Upvote"}
+    onClick={onClick}
   >
-    {voteMutation => (
-      <button
-        className={`link f5 pl0 pr1 bn bg-transparent hover-black pointer ${
-          voteId ? "light-purple" : "moon-gray"
-        }`}
-        aria-label={voteId ? "Remove upvote" : "Upvote"}
-        onClick={voteMutation}
-      >
-        <span aria-hidden>▲</span>
-      </button>
-    )}
-  </Mutation>
+    <span aria-hidden>▲</span>
+  </button>
 );
 
 export default UpvoteButton;

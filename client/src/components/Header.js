@@ -24,21 +24,17 @@ class Header extends Component {
   render() {
     const { username } = this.context;
     return (
-      <header className="flex flex-wrap mb3 items-center nowrap mw8">
-        <h1 className="f4 fw7 mr3 code ">
+      <header className="flex flex-wrap items-center nowrap pv3 w-100 mw8 sticky top-0 z-1 bg--grad-bottom">
+        <h1 className="f4 fw7 mv0 mr2 mr3-ns pv3 code">
           <Link to="/" className={`${linkStyles} black`}>
             <span className="mr1">Hacker feed</span>
             <span aria-hidden>▐</span>
           </Link>
         </h1>
-        <nav className="flex items-center fixed bottom-1 static-l">
-          {/* <NavLink to="/">latest</NavLink>
-          <span className="moon-gray" aria-hidden>
-            ◼
-          </span> */}
-          <NavLink to="/create">post</NavLink>
-          <Separator />
+        <nav className="flex items-center pv3 fixed bottom-0 w-100 w-auto-nsm bg--grad-top header-nav">
           <NavLink to="/search">search</NavLink>
+          <Separator />
+          <NavLink to="/create">post</NavLink>
           <Separator />
           {username ? (
             <NavLink to="/account">account</NavLink>
@@ -46,6 +42,7 @@ class Header extends Component {
             <NavLink to="/login">log in</NavLink>
           )}
         </nav>
+        <div id="searchButtonPortal" className="w-20 w-auto-l flex-auto" />
       </header>
     );
   }

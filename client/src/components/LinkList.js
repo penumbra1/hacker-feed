@@ -16,7 +16,7 @@ const LinkList = props => {
         const linksToRender = data.feed.links;
 
         return (
-          <div className="mv3 mv4-ns">
+          <div>
             {linksToRender.length > 1
               ? linksToRender.map(link => (
                   <LinkListItem key={link.id} {...link} />

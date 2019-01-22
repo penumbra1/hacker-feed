@@ -7,6 +7,7 @@ import LinkList from "./LinkList";
 import CreateLink from "./CreateLink";
 import Login from "./Login";
 import Account from "./Account";
+import Search from "./Search";
 import { AUTH_TOKEN, AuthContext } from "../auth";
 import "../custom.css";
 import NotFound from "./NotFound";
@@ -33,12 +34,13 @@ class App extends Component {
           const userId = currentUser ? currentUser.id : null;
           return (
             <AuthContext.Provider value={{ username, userId }}>
-              <div className="sans-serif flex flex-column justify-start pv3 ph4 ph5-m ph7-l mr-auto ml-auto mw8">
+              <div className="sans-serif ph4 ph5-6-m ph7-l mr-auto ml-auto mw8">
                 <Header />
-                <main>
+                <main className="mb6 relative">
                   {/* {loading && <div>"Loading..."</div>} */}
                   <Router>
                     <LinkList path="/" />
+                    <Search path="/search" />
                     <CreateLink path="/create" />
                     <Account
                       path="/account"

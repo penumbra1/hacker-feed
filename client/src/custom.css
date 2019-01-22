@@ -2,16 +2,50 @@
   outline: none;
 }
 
+.sticky {
+  position: sticky;
+}
+
 .mv4-5 {
   margin: 5rem 0;
+}
+
+.mw4-5 {
+  max-width: 10rem;
 }
 
 .f-10 {
   font-size: 10rem;
 }
 
-@media screen and (min-width: 56em) {
-  .static-nsm {
+.bg--grad-bottom {
+  background: linear-gradient(to bottom, white 80%, rgba(255, 255, 255, 0));
+}
+
+.bg--grad-top {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), white 20%);
+}
+
+@media (min-width: 60em) {
+  .header-nav {
     position: static;
+    width: auto;
+    background: transparent;
+    margin-right: auto;
+  }
+}
+
+@media screen and (max-width: 60em) and (min-width: 30em) {
+  .ph5-6-m {
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
+}
+
+@media (min-width: 60em) {
+  #searchButtonPortal {
+    position: absolute;
+    bottom: -2.8rem;
+    right: calc(100% + 2rem);
   }
 }
