@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
-import { FEED_QUERY, VOTE_MUTATION, UNVOTE_MUTATION } from "../graphql";
+import { VOTE_MUTATION, UNVOTE_MUTATION } from "../graphql";
 import { AuthContext } from "../auth";
 import { timeDifferenceForDate } from "../utils";
 import UpvoteButton from "./UpvoteButton";
+import Upvote from "./Upvote";
 
 const Link = ({ url, description }) => (
   <>
@@ -39,46 +40,16 @@ const LinkInfo = ({ votes, postedBy, createdAt }) => (
 class LinkListItem extends Component {
   static contextType = AuthContext;
 
-  state = {
-    isUpvoted: false
-  };
-
-  componentDidMount() {
-    const voteByCurrentUser = this.props.votes.find(
-      vote => vote.user.id === this.context.userId
-    );
-    this.setState({ isUpvoted: !!voteByCurrentUser });
-  }
-
   render() {
-    const isLoggedIn = !!this.context.userId;
+    const { userId } = this.context;
     const { id: linkId, url, description, votes, ...metadata } = this.props;
-    const { isUpvoted } = this.state;
 
     return (
-      <Mutation
-        mutation={isUpvoted ? UNVOTE_MUTATION : VOTE_MUTATION}
-        variables={{ linkId }}
-        context={{ debounceKey: 1 }}
-        // optimisticResponse={{
-        //           __typename: "Mutation",
-        //           [isUpvoted ? "unvote" : "vote"]: {
-        //              __typename: "Link",
-        //             id: linkId,
-        //             votes: votes.push({})
-        //           }
-        //         }}
-      >
-        {voteMutation => (
-          <div className="mb3">
-            {isLoggedIn && (
-              <UpvoteButton isUpvoted={isUpvoted} onClick={voteMutation} />
-            )}
-            <LinkInfo votes={votes.length} {...metadata} />
-            <Link url={url} description={description} />
-          </div>
-        )}
-      </Mutation>
+      <div className="mb3">
+        {userId && <Upvote {...{ linkId, userId, votes }} />}
+        <LinkInfo votes={votes.length} {...metadata} />
+        <Link url={url} description={description} />
+      </div>
     );
   }
 }

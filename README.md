@@ -16,14 +16,15 @@ Final code can be found [here](https://github.com/howtographql/react-apollo), bu
 10. Cancelling an upvote ✔️
 11. Avoid updating the cache manually after vote mutations ✔️
 12. [Debounce](https://www.npmjs.com/package/apollo-link-debounce) upvotes ✔️
-13. Error in signup if email is already registered
-14. Nested route search/... for search results
-15. Fetching loader
-16. Switch from graphql-yoga to apollo-server (see [discussion](https://github.com/prisma/graphql-yoga/issues/449))
-17. Add comments and user dashboard with posts
-18. Add moderator role: bans users, hides inappropriate posts (see [article](https://blog.apollographql.com/authorization-in-graphql-452b1c402a9))
-19. TS?
-20. Expire the token, add a query to check if it's valid on app startup.
+13. Count upvotes by current user on the server via an aggregate query
+14. Error in signup if email is already registered
+15. Nested route search/... for search results
+16. Fetching loader
+17. Switch from graphql-yoga to apollo-server (see [discussion](https://github.com/prisma/graphql-yoga/issues/449))
+18. Add user post stats to the account page
+19. Add moderator role: bans users, hides posts (see [article](https://blog.apollographql.com/authorization-in-graphql-452b1c402a9))
+20. TS?
+21. Expire the token, add a query to check if it's valid on app startup.
 
 # Notes
 
