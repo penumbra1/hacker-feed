@@ -1,32 +1,12 @@
 import React from "react";
-import { Query } from "react-apollo";
-import { FEED_QUERY } from "../graphql";
 import LinkListItem from "./LinkListItem";
 
-const LinkList = props => {
-  return (
-    <Query query={FEED_QUERY}>
-      {({ loading, error, data }) => {
-        if (loading) return <div>Fetching data...</div>;
-        if (error) {
-          console.error(error);
-          return <div>Something went wrong.</div>;
-        }
-
-        const linksToRender = data.feed.links;
-
-        return (
-          <div>
-            {linksToRender.length > 1
-              ? linksToRender.map(link => (
-                  <LinkListItem key={link.id} {...link} />
-                ))
-              : "Nothing here yet..."}
-          </div>
-        );
-      }}
-    </Query>
-  );
-};
+const LinkList = ({ links }) => (
+  <div>
+    {links.length > 0
+      ? links.map(link => <LinkListItem key={link.id} {...link} />)
+      : "Nothing here yet..."}
+  </div>
+);
 
 export default LinkList;

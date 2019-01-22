@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { Router } from "@reach/router";
 import { Query } from "react-apollo";
-import { USER_QUERY } from "../graphql";
+import { USER_QUERY, FEED_QUERY } from "../graphql";
 import Header from "./Header";
-import LinkList from "./LinkList";
+import Feed from "./Feed";
 import CreateLink from "./CreateLink";
 import Login from "./Login";
 import Account from "./Account";
 import Search from "./Search";
+import NotFound from "./NotFound";
 import { AUTH_TOKEN, AuthContext } from "../auth";
 import "../custom.css";
-import NotFound from "./NotFound";
 
 class App extends Component {
   handleLogout = () => {
@@ -39,7 +39,7 @@ class App extends Component {
                 <main className="mb6 relative">
                   {/* {loading && <div>"Loading..."</div>} */}
                   <Router>
-                    <LinkList path="/" />
+                    <Feed query={FEED_QUERY} path="/" />
                     <Search path="/search" />
                     <CreateLink path="/create" />
                     <Account
