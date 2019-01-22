@@ -30,52 +30,57 @@ class Login extends Component {
     const { login, email, password, username } = this.state;
 
     return (
-      <Form
-        title={login ? "Log in" : "Sign up"}
-        onSwitch={this.toggleLoginOrSignup}
-        switchText={login ? "create a new account" : "log in to your account"}
+      <Mutation
+        mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
+        onCompleted={this.onMutationCompleted}
       >
-        {!login && (
-          <Input
-            labelText="Username"
-            id="username"
-            type="text"
-            value={username}
-            required
-            onChange={this.handleChange}
-          />
+        {signupOrLoginMutation => (
+          <Form
+            title={login ? "Log in" : "Sign up"}
+            onSwitch={this.toggleLoginOrSignup}
+            switchText={
+              login ? "create a new account" : "log in to your account"
+            }
+            onSubmit={e => {
+              e.preventDefault();
+              signupOrLoginMutation({
+                variables: { email, password, name: username }
+              });
+            }}
+          >
+            {!login && (
+              <Input
+                labelText="Username"
+                id="username"
+                type="text"
+                value={username}
+                required
+                onChange={this.handleChange}
+              />
+            )}
+            <Input
+              labelText="Email"
+              id="email"
+              type="email"
+              autoComplete="username"
+              value={email}
+              required
+              onChange={this.handleChange}
+            />
+            <Input
+              labelText="Password"
+              id="password"
+              type="password"
+              autoComplete={login ? "current-password" : "new-password"}
+              minLength={6}
+              value={password}
+              required
+              onChange={this.handleChange}
+            />
+            <Button>{login ? "Log in" : "Sign up"}</Button>
+          </Form>
         )}
-        <Input
-          labelText="Email"
-          id="email"
-          type="email"
-          autoComplete="username"
-          value={email}
-          required
-          onChange={this.handleChange}
-        />
-        <Input
-          labelText="Password"
-          id="password"
-          type="password"
-          autoComplete={login ? "current-password" : "new-password"}
-          minLength={6}
-          value={password}
-          required
-          onChange={this.handleChange}
-        />
-        <Mutation
-          mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
-          variables={{ email, password, name: username }}
-          onCompleted={this.onMutationCompleted}
-        >
-          {signupOrLoginMutation => (
-            <Button onClick={signupOrLoginMutation}>
-              {login ? "Log in" : "Sign up"}
-            </Button>
-          )}
-        </Mutation>
-      </Form>
+      </Mutation>
     );
   }
 }

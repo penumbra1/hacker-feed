@@ -27,30 +27,39 @@ class CreateLink extends Component {
     }
 
     return (
-      <Form title="Got something to share?">
-        <Input
-          labelText="URL"
-          id="url"
-          type="url"
-          value={url}
-          onChange={this.handleChange}
-        />
-        <Input
-          labelText="Description"
-          id="description"
-          type="text"
-          value={description}
-          onChange={this.handleChange}
-        />
-        <Mutation
-          mutation={POST_MUTATION}
-          variables={{ description, url }}
-          onCompleted={() => this.props.navigate("/")}
-          refetchQueries={["getFeed"]}
-        >
-          {postMutation => <Button onClick={postMutation}>Submit</Button>}
-        </Mutation>
-      </Form>
+      <Mutation
+        mutation={POST_MUTATION}
+        onCompleted={() => this.props.navigate("/")}
+        refetchQueries={["getFeed"]}
+      >
+        {postMutation => (
+          <Form
+            title="Got something to share?"
+            onSubmit={e => {
+              e.preventDefault();
+              postMutation({ variables: { description, url } });
+            }}
+          >
+            <Input
+              labelText="URL"
+              id="url"
+              type="url"
+              value={url}
+              required
+              onChange={this.handleChange}
+            />
+            <Input
+              labelText="Description"
+              id="description"
+              type="text"
+              value={description}
+              required
+              onChange={this.handleChange}
+            />
+            <Button>Submit</Button>
+          </Form>
+        )}
+      </Mutation>
     );
   }
 }

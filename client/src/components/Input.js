@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 const Input = ({ labelText, id, className = "", ...inputProps }) => {
   return (
@@ -15,4 +15,4 @@ const Input = ({ labelText, id, className = "", ...inputProps }) => {
   );
 };
 
-export default Input;
+export default memo(Input);
