@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import { createPortal } from "react-dom";
 import { withApollo } from "react-apollo";
 import gql from "graphql-tag";
-import LinkList from "./LinkList";
+import Feed from "./Feed";
+import LinkListItem from "./LinkListItem";
 import Form from "./Form";
 import Input from "./Input";
 import Button from "./Button";
+import { FEED_SEARCH_QUERY } from "../graphql";
+import LinkList from "./LinkList";
 
 const searchButtonStyles =
   "button code f6 truncate link dim pointer bg-transparent ba b--light-purple light-purple br1 ph3 pv2 mv2 db w-100 mw4-5";
@@ -29,9 +32,9 @@ class Search extends Component {
     showResults: false
   };
 
-  getResults = e => {
-    // Query here
-    this.setState({ showResults: true });
+  toggleSearchResults = e => {
+    e.preventDefault();
+    this.setState(({ showResults }) => ({ showResults: !showResults }));
   };
 
   showSearchInput = () => {
@@ -43,17 +46,17 @@ class Search extends Component {
   };
 
   render() {
-    const { filter, searchTerm, showResults } = this.state;
+    const { filter, searchTerm, showResults, links } = this.state;
     if (showResults) {
       return (
         <>
-          <SearchButton text={searchTerm} onClick={this.showSearchInput} />
-          <LinkList />
+          <SearchButton text={searchTerm} onClick={this.toggleSearchResults} />
+          <Feed query={FEED_SEARCH_QUERY} variables={{ filter: searchTerm }} />
         </>
       );
     }
     return (
-      <Form onSubmit={this.getResults}>
+      <Form onSubmit={this.toggleSearchResults}>
         <Input
           labelText="URL or keyword"
           id="searchTerm"
@@ -71,4 +74,4 @@ class Search extends Component {
   }
 }
 
-export default Search;
+export default withApollo(Search);
