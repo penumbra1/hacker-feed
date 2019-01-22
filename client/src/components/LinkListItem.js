@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import { Mutation } from "react-apollo";
-import { VOTE_MUTATION, UNVOTE_MUTATION } from "../graphql";
 import { AuthContext } from "../auth";
 import { timeDifferenceForDate } from "../utils";
-import UpvoteButton from "./UpvoteButton";
 import Upvote from "./Upvote";
 
 const Link = ({ url, description }) => (

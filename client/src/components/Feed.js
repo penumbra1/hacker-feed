@@ -1,6 +1,5 @@
 import React from "react";
 import { Query } from "react-apollo";
-import { FEED_QUERY } from "../graphql";
 import LinkList from "./LinkList";
 
 const Feed = ({ ...queryProps }) => {

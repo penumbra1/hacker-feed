@@ -1,14 +1,10 @@
 import React, { Component } from "react";
 import { createPortal } from "react-dom";
-import { withApollo } from "react-apollo";
-import gql from "graphql-tag";
+import { FEED_SEARCH_QUERY } from "../graphql";
 import Feed from "./Feed";
-import LinkListItem from "./LinkListItem";
 import Form from "./Form";
 import Input from "./Input";
 import Button from "./Button";
-import { FEED_SEARCH_QUERY } from "../graphql";
-import LinkList from "./LinkList";
 
 const searchButtonStyles =
   "button code f6 truncate link dim pointer bg-transparent ba b--light-purple light-purple br1 ph3 pv2 mv2 db w-100 mw4-5";
@@ -27,7 +23,6 @@ const SearchButton = ({ onClick, text, className = "" }) =>
 
 class Search extends Component {
   state = {
-    links: [],
     searchTerm: "",
     showResults: false
   };
@@ -46,7 +41,7 @@ class Search extends Component {
   };
 
   render() {
-    const { filter, searchTerm, showResults, links } = this.state;
+    const { searchTerm, showResults } = this.state;
     if (showResults) {
       return (
         <>
@@ -74,4 +69,4 @@ class Search extends Component {
   }
 }
 
-export default withApollo(Search);
+export default Search;

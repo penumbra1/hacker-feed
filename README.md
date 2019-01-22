@@ -13,18 +13,17 @@ Final code can be found [here](https://github.com/howtographql/react-apollo), bu
 7. Add mutation states with UI feedback
 8. Add a redirect to login and back for unauth-d users on /create ✔️
 9. 404 page ✔️
-10. Cancelling an upvote ✔️
-11. Avoid updating the cache manually after vote mutations ✔️
+10. Cancelling upvotes with optimistic updates ✔️
+11. Automatic cache updates ✔️
 12. [Debounce](https://www.npmjs.com/package/apollo-link-debounce) upvotes ✔️
 13. Count upvotes by current user on the server via an aggregate query
 14. Error in signup if email is already registered
-15. Nested route search/... for search results
-16. Fetching loader
-17. Switch from graphql-yoga to apollo-server (see [discussion](https://github.com/prisma/graphql-yoga/issues/449))
-18. Add user post stats to the account page
-19. Add moderator role: bans users, hides posts (see [article](https://blog.apollographql.com/authorization-in-graphql-452b1c402a9))
-20. TS?
-21. Expire the token, add a query to check if it's valid on app startup.
+15. Fetching loader
+16. Switch from graphql-yoga to apollo-server (see [discussion](https://github.com/prisma/graphql-yoga/issues/449))
+17. Add user post stats to the account page
+18. Add moderator role: bans users, hides posts (see [article](https://blog.apollographql.com/authorization-in-graphql-452b1c402a9))
+19. TS?
+20. Expire the token, add a query to check if it's valid on app startup.
 
 # Notes
 
@@ -50,4 +49,4 @@ I wish there were a performant way to order links by number of votes on the serv
 
 To make use of [automatic updates](https://www.apollographql.com/docs/react/advanced/caching.html#automatic-updates) in Apollo, I rewrote voting mutations so that they return the updated links instead of votes. As the UI is mapped to links from the GET_FEED query, Apollo is able to figure out when the links have updated and rerender automatically without any update function 🔥
 
-Prisma doesn't return related data after a mutation (e.g. deleting a vote returns the vote id but not the link it belonged to). See issues: [1](https://github.com/prisma/graphcool-framework/issues/519), [2](https://github.com/prisma/prisma/issues/2347).
+**NB:** Prisma doesn't return related data after a mutation (e.g. deleting a vote returns the vote id but not the link it belonged to). See issues: [1](https://github.com/prisma/graphcool-framework/issues/519), [2](https://github.com/prisma/prisma/issues/2347).
