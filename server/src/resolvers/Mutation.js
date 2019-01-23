@@ -11,6 +11,23 @@ function post(parent, args, context) {
   });
 }
 
+async function remove(parent, args, context) {
+  const userId = getUserId(context);
+  const ownerId = await context.prisma
+    .link({
+      id: args.linkId
+    })
+    .id();
+
+  if (ownerId !== userId) {
+    throw new Error("Link was posted by another user");
+  }
+
+  return context.prisma.deleteLink({
+    id: args.linkId
+  });
+}
+
 async function signup(parent, args, context) {
   const password = await bcrypt.hash(args.password, 10);
   const user = await context.prisma.createUser({ ...args, password });
@@ -103,6 +120,7 @@ async function unvote(parent, args, context) {
 
 module.exports = {
   post,
+  remove,
   signup,
   login,
   vote,
