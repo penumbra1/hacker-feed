@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { createPortal } from "react-dom";
-import { FEED_SEARCH_QUERY } from "../graphql";
 import Feed from "./Feed";
 import Form from "./Form";
 import Input from "./Input";
@@ -32,10 +31,6 @@ class Search extends Component {
     this.setState(({ showResults }) => ({ showResults: !showResults }));
   };
 
-  showSearchInput = () => {
-    this.setState({ showResults: false });
-  };
-
   updateSearchTerm = e => {
     this.setState({ searchTerm: e.target.value });
   };
@@ -46,7 +41,7 @@ class Search extends Component {
       return (
         <>
           <SearchButton text={searchTerm} onClick={this.toggleSearchResults} />
-          <Feed query={FEED_SEARCH_QUERY} variables={{ filter: searchTerm }} />
+          <Feed variables={{ filter: searchTerm }} />
         </>
       );
     }

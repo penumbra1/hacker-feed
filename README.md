@@ -8,8 +8,8 @@ Final code can be found [here](https://github.com/howtographql/react-apollo), bu
 2. Experiment with Tachyons, clean up the markup ✔️ (WIP)
 3. Input validation & autocomplete ✔️
 4. Move to Reach Router due to link focus issues on route change (see [issue](https://github.com/ReactTraining/react-router/issues/5210)) ✔️
-5. Add auth context to store the name of the current user ✔️
-6. Add a [custom directive](https://codeburst.io/use-custom-directives-to-protect-your-graphql-apis-a78cbbe17355) instead of getUserId() in utils.
+5. Add a query and client context for current user ✔️
+6. Add a [custom directive](https://codeburst.io/use-custom-directives-to-protect-your-graphql-apis-a78cbbe17355) to protect posts and votes.
 7. Add mutation states with UI feedback
 8. Add a redirect to login and back for unauth-d users on /create ✔️
 9. 404 page ✔️
@@ -50,3 +50,9 @@ I wish there were a performant way to order links by number of votes on the serv
 To make use of [automatic updates](https://www.apollographql.com/docs/react/advanced/caching.html#automatic-updates) in Apollo, I rewrote voting mutations so that they return the updated links instead of votes. As the UI is mapped to links from the GET_FEED query, Apollo is able to figure out when the links have updated and rerender automatically without any update function 🔥
 
 **NB:** Prisma doesn't return related data after a mutation (e.g. deleting a vote returns the vote id but not the link it belonged to). See issues: [1](https://github.com/prisma/graphcool-framework/issues/519), [2](https://github.com/prisma/prisma/issues/2347).
+
+### Queries & subscriptions
+
+By taking advantage of argument nullability, I was able to reuse the same feed query both on the homepage and in /search.
+
+Subscriptions also work in the /search route and obey the filters specified as nullable arguments.

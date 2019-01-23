@@ -1,12 +1,22 @@
-import React from "react";
+import React, { Component } from "react";
 import LinkListItem from "./LinkListItem";
 
-const LinkList = ({ links }) => (
-  <div>
-    {links.length > 0
-      ? links.map(link => <LinkListItem key={link.id} {...link} />)
-      : "Nothing here yet..."}
-  </div>
-);
+class LinkList extends Component {
+  componentDidMount() {
+    this.props.subscribe();
+  }
+
+  render() {
+    return (
+      <div>
+        {this.props.links.length > 0
+          ? this.props.links.map(link => (
+              <LinkListItem key={link.id} {...link} />
+            ))
+          : "Nothing here yet..."}
+      </div>
+    );
+  }
+}
 
 export default LinkList;

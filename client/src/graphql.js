@@ -10,8 +10,8 @@ export const USER_QUERY = gql`
 `;
 
 export const FEED_QUERY = gql`
-  query getFeed {
-    feed {
+  query getFeed($filter: String) {
+    feed(filter: $filter) {
       links {
         id
         createdAt
@@ -32,23 +32,42 @@ export const FEED_QUERY = gql`
   }
 `;
 
-export const FEED_SEARCH_QUERY = gql`
-  query FeedSearchQuery($filter: String!) {
-    feed(filter: $filter) {
-      links {
+export const NEW_LINK_SUBSCRIPTION = gql`
+  subscription newLinkSubscription($filter: String) {
+    newLink(filter: $filter) {
+      id
+      createdAt
+      url
+      description
+      postedBy {
         id
-        url
-        description
-        createdAt
-        postedBy {
+        name
+      }
+      votes {
+        id
+        user {
           id
-          name
         }
-        votes {
+      }
+    }
+  }
+`;
+
+export const DELETED_LINK_SUBSCRIPTION = gql`
+  subscription deletedLinkSubscription($filter: String) {
+    deletedLink(filter: $filter) {
+      id
+      createdAt
+      url
+      description
+      postedBy {
+        id
+        name
+      }
+      votes {
+        id
+        user {
           id
-          user {
-            id
-          }
         }
       }
     }

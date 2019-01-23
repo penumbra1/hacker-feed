@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Router } from "@reach/router";
 import { Query } from "react-apollo";
-import { USER_QUERY, FEED_QUERY } from "../graphql";
+import { USER_QUERY } from "../graphql";
 import Header from "./Header";
 import Feed from "./Feed";
 import CreateLink from "./CreateLink";
@@ -27,7 +27,7 @@ class App extends Component {
         {({ loading, error, data, refetch, client }) => {
           if (error) {
             console.error(error);
-            // Fall through to rendering with no data
+            // Fall through to rendering with no user data
           }
           const { currentUser } = data;
           const username = currentUser ? currentUser.name : null;
@@ -39,7 +39,7 @@ class App extends Component {
                 <main className="mb6 relative">
                   {/* {loading && <div>"Loading..."</div>} */}
                   <Router>
-                    <Feed query={FEED_QUERY} path="/" />
+                    <Feed path="/" />
                     <Search path="/search" />
                     <CreateLink path="/create" />
                     <Account
