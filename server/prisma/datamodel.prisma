@@ -4,6 +4,7 @@ type Link {
   description: String!
   url: String!
   postedBy: User
+  # CASCADE deletes all related votes when a link is deleted
   votes: [Vote!]! @relation(name: "VoteForLink", onDelete: CASCADE)
 }
 
