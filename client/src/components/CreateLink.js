@@ -30,7 +30,7 @@ class CreateLink extends Component {
       <Mutation
         mutation={POST_MUTATION}
         onCompleted={() => this.props.navigate("/")}
-        refetchQueries={["getFeed"]}
+        // refetchQueries={["getFeed"]}
       >
         {postMutation => (
           <Form

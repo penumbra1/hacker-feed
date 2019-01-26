@@ -28,13 +28,14 @@ export const FEED_QUERY = gql`
           }
         }
       }
+      count
     }
   }
 `;
 
 export const NEW_LINK_SUBSCRIPTION = gql`
-  subscription newLinkSubscription($filter: String) {
-    newLink(filter: $filter) {
+  subscription postedLinkSubscription($filter: String) {
+    postedLink(filter: $filter) {
       id
       createdAt
       url
@@ -53,23 +54,10 @@ export const NEW_LINK_SUBSCRIPTION = gql`
   }
 `;
 
-export const DELETED_LINK_SUBSCRIPTION = gql`
-  subscription deletedLinkSubscription($filter: String) {
-    deletedLink(filter: $filter) {
+export const REMOVED_LINK_SUBSCRIPTION = gql`
+  subscription removedLinkSubscription($filter: String) {
+    removedLink(filter: $filter) {
       id
-      createdAt
-      url
-      description
-      postedBy {
-        id
-        name
-      }
-      votes {
-        id
-        user {
-          id
-        }
-      }
     }
   }
 `;

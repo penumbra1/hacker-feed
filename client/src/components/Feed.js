@@ -3,14 +3,17 @@ import { Query } from "react-apollo";
 import {
   FEED_QUERY,
   NEW_LINK_SUBSCRIPTION,
-  DELETED_LINK_SUBSCRIPTION
+  REMOVED_LINK_SUBSCRIPTION
 } from "../graphql";
 import LinkList from "./LinkList";
-// import LinkListItem from "./LinkListItem";
 
-const Feed = ({ variables }) => {
+const Feed = ({ variables = {} }) => {
   return (
-    <Query query={FEED_QUERY} variables={variables}>
+    <Query
+      query={FEED_QUERY}
+      variables={variables}
+      // fetchPolicy="cache-and-network"
+    >
       {({ loading, error, data, subscribeToMore }) => {
         if (loading) return <div>Fetching data...</div>;
         if (error) {
@@ -22,18 +25,17 @@ const Feed = ({ variables }) => {
           <LinkList
             links={data.feed.links}
             subscribe={() => {
-              console.log("Subbed");
               subscribeToMore({
                 document: NEW_LINK_SUBSCRIPTION,
                 variables,
-                updateQuery: (prev, { subscriptionData }) => {
-                  console.log("updating", subscriptionData);
-                  if (!subscriptionData.data) return prev;
-                  const newLink = subscriptionData.data.newLink;
+                updateQuery: (prev, { subscriptionData: { data } }) => {
+                  console.log("added", data);
+                  if (!data) return prev;
+                  const { postedLink } = data;
                   return {
                     ...prev,
                     feed: {
-                      links: [...prev.feed.links, newLink],
+                      links: [...prev.feed.links, postedLink],
                       count: prev.feed.links.length + 1,
                       __typename: prev.feed.__typename
                     }
@@ -41,15 +43,19 @@ const Feed = ({ variables }) => {
                 }
               });
               subscribeToMore({
-                document: DELETED_LINK_SUBSCRIPTION,
+                document: REMOVED_LINK_SUBSCRIPTION,
                 variables,
-                updateQuery: (prev, { subscriptionData }) => {
-                  if (!subscriptionData.data) return prev;
-                  const { linkId } = subscriptionData.data.deletedLink;
+                updateQuery: (prev, { subscriptionData: { data } }) => {
+                  console.log("removed", data);
+                  if (!data) return prev;
+                  const { removedLink } = data;
                   return {
                     ...prev,
                     feed: {
-                      links: prev.feed.links.filter(({ id }) => id !== linkId),
+                      // ...prev.feed,
+                      links: prev.feed.links.filter(
+                        ({ id }) => id !== removedLink.id
+                      ),
                       count: prev.feed.links.length - 1,
                       __typename: prev.feed.__typename
                     }
@@ -59,14 +65,6 @@ const Feed = ({ variables }) => {
             }}
           />
         );
-        // const { links } = data.feed;
-        // return (
-        //   <div>
-        //     {links.length > 0
-        //       ? links.map(link => <LinkListItem key={link.id} {...link} />)
-        //       : "Nothing here yet..."}
-        //   </div>
-        // );
       }}
     </Query>
   );
