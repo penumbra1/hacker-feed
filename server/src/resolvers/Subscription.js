@@ -7,7 +7,6 @@ const newVote = {
   resolve: payload => payload
 };
 
-// Subscribe to updates on a link with the provided linkId
 function updatedLinkSubscribe(parent, args, context) {
   return context.prisma.$subscribe
     .link({
@@ -24,29 +23,33 @@ const updatedLink = {
   resolve: payload => payload
 };
 
-// Subscribe to created and deleted links filtered by provided arguments
-function newLinkSubscribe(parent, args, context) {
+async function postedLinkSubscribe(parent, args, context, info) {
+  console.log("postedLinkSubscribe");
   return context.prisma.$subscribe
-    .link({
-      mutation_in: ["CREATED"],
-      node: {
-        OR: [
-          { description_contains: args.filter },
-          { url_contains: args.filter }
-        ]
-      }
-    })
+    .link(
+      {
+        mutation_in: ["CREATED"],
+        node: {
+          OR: [
+            { description_contains: args.filter },
+            { url_contains: args.filter }
+          ]
+        }
+      },
+      info
+    )
     .node();
 }
 
-const newLink = {
-  subscribe: newLinkSubscribe,
+const postedLink = {
+  subscribe: postedLinkSubscribe,
   resolve: payload => payload
 };
 
-function deletedLinkSubscribe(parent, args, context) {
-  return context.prisma.$subscribe
-    .link({
+async function removedLinkSubscribe(parent, args, context, info) {
+  console.log("removedLinkSubscribe");
+  return context.prisma.$subscribe.link(
+    {
       mutation_in: ["DELETED"],
       node: {
         OR: [
@@ -54,18 +57,25 @@ function deletedLinkSubscribe(parent, args, context) {
           { url_contains: args.filter }
         ]
       }
-    })
-    .previousValues();
+    },
+    info
+  ).$fragment(`
+      fragment PreviousValues on LinkSubscriptionPayload {
+        previousValues {
+          id
+        }
+      }
+    `);
 }
 
-const deletedLink = {
-  subscribe: deletedLinkSubscribe,
-  resolve: payload => payload
+const removedLink = {
+  subscribe: removedLinkSubscribe,
+  resolve: payload => payload.previousValues
 };
 
 module.exports = {
-  newLink,
-  deletedLink,
+  postedLink,
+  removedLink,
   updatedLink,
   newVote
 };

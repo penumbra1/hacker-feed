@@ -2,30 +2,43 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { APP_SECRET, getUserId } = require("../utils");
 
-function post(parent, args, context) {
+async function post(parent, args, context, info) {
   const userId = getUserId(context);
-  return context.prisma.createLink({
-    url: args.url,
-    description: args.description,
-    postedBy: { connect: { id: userId } }
-  });
+  return context.prisma.createLink(
+    {
+      url: args.url,
+      description: args.description,
+      postedBy: { connect: { id: userId } }
+    },
+    info
+  );
 }
 
-async function remove(parent, args, context) {
+async function remove(parent, args, context, info) {
   const userId = getUserId(context);
-  const ownerId = await context.prisma
+
+  // Getting ownerId via $fragment
+  // due to https://github.com/prisma/prisma/issues/3919
+  const { id: ownerId } = await context.prisma
     .link({
       id: args.linkId
     })
-    .id();
+    .postedBy().$fragment(`
+      fragment Id on User {
+        id
+      }
+    `);
 
   if (ownerId !== userId) {
     throw new Error("Link was posted by another user");
   }
 
-  return context.prisma.deleteLink({
-    id: args.linkId
-  });
+  return context.prisma.deleteLink(
+    {
+      id: args.linkId
+    },
+    info
+  );
 }
 
 async function signup(parent, args, context) {

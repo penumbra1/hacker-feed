@@ -31,9 +31,13 @@ type Mutation {
 
 type Subscription {
   newVote: Vote
-  newLink(filter: String): Link
-  deletedLink(filter: String): Link
+  postedLink(filter: String = ""): Link
+  removedLink(filter: String = ""): LinkPreviousId
   updatedLink(linkId: ID!): Link
+}
+
+type LinkPreviousId {
+  id: ID!
 }
 
 type AuthPayload {
