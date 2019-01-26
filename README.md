@@ -45,14 +45,17 @@ Reach Router [can't navigate back](https://github.com/reach/router/issues/44) ye
 
 I wish there were a performant way to order links by number of votes on the server. Sorting by length of related fields is [not implemented](https://stackoverflow.com/questions/53625619/query-to-get-data-ordered-by-the-number-of-items-in-a-relation) in Prisma yet. Counting votes for each link and sorting them on the client would break pagination and affect performance. For now, I'm sticking to sorting by scalar fields.
 
-### Mutations & cache
+### Apollo
 
 To make use of [automatic updates](https://www.apollographql.com/docs/react/advanced/caching.html#automatic-updates) in Apollo, I rewrote voting mutations so that they return the updated links instead of votes. As the UI is mapped to links from the GET_FEED query, Apollo is able to figure out when the links have updated and rerender automatically without any update function 🔥
 
-**NB:** Prisma doesn't return related data after a mutation (e.g. deleting a vote returns the vote id but not the link it belonged to). See issues: [1](https://github.com/prisma/graphcool-framework/issues/519), [2](https://github.com/prisma/prisma/issues/2347).
-
-### Queries & subscriptions
-
 By taking advantage of argument nullability, I was able to reuse the same feed query both on the homepage and in /search.
 
-Subscriptions also work in the /search route and obey the filters specified as nullable arguments.
+### Prisma
+
+...is pretty whimsy:
+
+- Connection fields are not returned from a mutation (e.g. delete mutation on a link does not return its related votes): [1](https://github.com/prisma/prisma/issues/2347). Leaving it as is for now.
+- Subscriptions don't always work with filters: [1](https://github.com/prisma/prisma/issues/3932). Looks like in my case it was due to nullable filters, so setting defaults to "" worked.
+- Chaining a scalar field query in prisma-client [throws an error](https://github.com/prisma/prisma/issues/3919). Temporary fix: chaining with \$fragment.
+- Delete subscription payload is null, so it can't return any data on deleted link: [1](https://github.com/prisma/prisma/issues/3368), [2](https://github.com/prisma/prisma/issues/3603). This might have to do with the chaining issue above, as I was able to extract the payload with a \$fragment again.
