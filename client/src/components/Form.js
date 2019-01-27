@@ -19,16 +19,13 @@ const Form = ({
         {switchText && (
           <span className="ml-auto">
             {"or "}
-            <a
-              href="#"
-              onClick={e => {
-                e.target.blur();
-                onSwitch();
-              }}
-              className="link dim light-purple"
+            <button
+              className="link dim bn light-purple bg-transparent pointer"
+              type="button"
+              onClick={onSwitch}
             >
               {switchText}
-            </a>
+            </button>
           </span>
         )}
       </div>

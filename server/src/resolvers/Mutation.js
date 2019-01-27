@@ -42,9 +42,13 @@ async function remove(parent, args, context, info) {
 }
 
 async function signup(parent, args, context) {
+  const registered = await context.prisma.$exists.user({ email: args.email });
+  if (registered) {
+    throw new Error("Email is already registered");
+  }
+
   const password = await bcrypt.hash(args.password, 10);
   const user = await context.prisma.createUser({ ...args, password });
-
   const token = jwt.sign({ userId: user.id }, APP_SECRET);
 
   return {
