@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
-import { POST_MUTATION } from "../graphql";
+import { POST_MUTATION, FEED_QUERY } from "../graphql";
 import Form from "./Form";
 import Input from "./Input";
 import Button from "./Button";
@@ -17,7 +17,7 @@ class CreateLink extends Component {
 
   render() {
     const { description, url } = this.state;
-    const { username } = this.context;
+    const { username, userId } = this.context;
 
     if (!username) {
       // not using Redirect here
@@ -30,7 +30,19 @@ class CreateLink extends Component {
       <Mutation
         mutation={POST_MUTATION}
         onCompleted={() => this.props.navigate("/")}
-        // refetchQueries={["getFeed"]}
+        update={(cache, { data: { post } }) => {
+          const { feed } = cache.readQuery({ query: FEED_QUERY });
+          cache.writeQuery({
+            query: FEED_QUERY,
+            data: {
+              feed: {
+                __typename: feed.__typename,
+                links: [...feed.links, post],
+                count: feed.count + 1
+              }
+            }
+          });
+        }}
       >
         {postMutation => (
           <Form

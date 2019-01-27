@@ -10,11 +10,7 @@ import LinkList from "./LinkList";
 
 const Feed = ({ variables = {} }) => {
   return (
-    <Query
-      query={FEED_QUERY}
-      variables={variables}
-      // fetchPolicy="cache-and-network"
-    >
+    <Query query={FEED_QUERY} variables={variables}>
       {({ loading, error, data, subscribeToMore }) => {
         if (loading) return <div>Fetching data...</div>;
         if (error) {
