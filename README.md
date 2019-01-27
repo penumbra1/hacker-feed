@@ -9,7 +9,7 @@ Final code can be found [here](https://github.com/howtographql/react-apollo), bu
 3. Input validation & autocomplete ✔️
 4. Move to Reach Router due to link focus issues on route change (see [issue](https://github.com/ReactTraining/react-router/issues/5210)) ✔️
 5. Add a query and client context for current user ✔️
-6. Add a [custom directive](https://codeburst.io/use-custom-directives-to-protect-your-graphql-apis-a78cbbe17355) to protect posts and votes.
+6. Add a [custom directive](https://codeburst.io/use-custom-directives-to-protect-your-graphql-apis-a78cbbe17355) to restrict posts and votes on the server side.
 7. Add mutation states with UI feedback
 8. Add a redirect to login and back for unauth-d users on /create ✔️
 9. 404 page ✔️
@@ -17,7 +17,7 @@ Final code can be found [here](https://github.com/howtographql/react-apollo), bu
 11. Automatic cache updates ✔️
 12. [Debounce](https://www.npmjs.com/package/apollo-link-debounce) upvotes ✔️
 13. Count upvotes by current user on the server via an aggregate query
-14. Error in signup if email is already registered
+14. Error in signup if email is already registered ✔️
 15. Fetching loader
 16. Switch from graphql-yoga to apollo-server (see [discussion](https://github.com/prisma/graphql-yoga/issues/449))
 17. Add user post stats to the account page
