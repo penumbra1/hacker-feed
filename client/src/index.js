@@ -27,7 +27,7 @@ const authLink = setContext((req, { headers }) => {
   };
 });
 
-const debounceLink = new DebounceLink(200);
+const debounceLink = new DebounceLink(300);
 
 const wsLink = new WebSocketLink({
   uri: "ws://localhost:4000",

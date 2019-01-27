@@ -1,5 +1,7 @@
 function newVoteSubscribe(parent, args, context, info) {
-  return context.prisma.$subscribe.vote({ mutation_in: ["CREATED"] }).node();
+  return context.prisma.$subscribe
+    .vote({ mutation_in: ["CREATED"] }, info)
+    .node();
 }
 
 const newVote = {
@@ -7,14 +9,17 @@ const newVote = {
   resolve: payload => payload
 };
 
-function updatedLinkSubscribe(parent, args, context) {
+function updatedLinkSubscribe(parent, args, context, info) {
   return context.prisma.$subscribe
-    .link({
-      mutation_in: ["UPDATED"],
-      node: {
-        id: args.linkId
-      }
-    })
+    .link(
+      {
+        mutation_in: ["UPDATED"],
+        node: {
+          id: args.linkId
+        }
+      },
+      info
+    )
     .node();
 }
 

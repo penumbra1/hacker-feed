@@ -37,6 +37,10 @@ const LinkInfo = ({ votes, postedBy, createdAt }) => (
 class LinkListItem extends Component {
   static contextType = AuthContext;
 
+  componentDidMount() {
+    this.props.subscribe(this.props.id);
+  }
+
   render() {
     const { userId } = this.context;
     const { id: linkId, url, description, votes, ...metadata } = this.props;

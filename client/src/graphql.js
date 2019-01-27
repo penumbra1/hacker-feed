@@ -62,6 +62,27 @@ export const REMOVED_LINK_SUBSCRIPTION = gql`
   }
 `;
 
+export const UPDATED_LINK_SUBSCRIPTION = gql`
+  subscription updatedLinkSubscription($linkId: ID!) {
+    updatedLink(linkId: $linkId) {
+      id
+      createdAt
+      url
+      description
+      postedBy {
+        id
+        name
+      }
+      votes {
+        id
+        user {
+          id
+        }
+      }
+    }
+  }
+`;
+
 export const SIGNUP_MUTATION = gql`
   mutation SignupMutation($email: String!, $password: String!, $name: String!) {
     signup(email: $email, password: $password, name: $name) {

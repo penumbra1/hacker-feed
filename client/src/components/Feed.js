@@ -3,7 +3,8 @@ import { Query } from "react-apollo";
 import {
   FEED_QUERY,
   NEW_LINK_SUBSCRIPTION,
-  REMOVED_LINK_SUBSCRIPTION
+  REMOVED_LINK_SUBSCRIPTION,
+  UPDATED_LINK_SUBSCRIPTION
 } from "../graphql";
 import LinkList from "./LinkList";
 
@@ -24,7 +25,7 @@ const Feed = ({ variables = {} }) => {
         return (
           <LinkList
             links={data.feed.links}
-            subscribe={() => {
+            subscribeToCreatesAndDeletes={() => {
               subscribeToMore({
                 document: NEW_LINK_SUBSCRIPTION,
                 variables,
@@ -52,7 +53,6 @@ const Feed = ({ variables = {} }) => {
                   return {
                     ...prev,
                     feed: {
-                      // ...prev.feed,
                       links: prev.feed.links.filter(
                         ({ id }) => id !== removedLink.id
                       ),
@@ -63,6 +63,30 @@ const Feed = ({ variables = {} }) => {
                 }
               });
             }}
+            subscribeToUpdates={linkId =>
+              subscribeToMore({
+                document: UPDATED_LINK_SUBSCRIPTION,
+                variables: { linkId },
+                updateQuery: (prev, { subscriptionData: { data } }) => {
+                  console.log("updated", data);
+                  if (!data) return prev;
+                  const { updatedLink } = data;
+                  return {
+                    ...prev,
+                    feed: {
+                      ...prev.feed,
+                      links: prev.feed.links.reduce((links, link) => {
+                        if (link.id === updatedLink.id)
+                          // updatedLink doesn't contain relation fields, hence  ...link
+                          links.push({ ...link, updatedLink });
+                        else links.push(link);
+                        return links;
+                      }, [])
+                    }
+                  };
+                }
+              })
+            }
           />
         );
       }}

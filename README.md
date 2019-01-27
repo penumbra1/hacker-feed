@@ -43,11 +43,11 @@ Reach Router [can't navigate back](https://github.com/reach/router/issues/44) ye
 
 ### Sorting
 
-I wish there were a performant way to order links by number of votes on the server. Sorting by length of related fields is [not implemented](https://stackoverflow.com/questions/53625619/query-to-get-data-ordered-by-the-number-of-items-in-a-relation) in Prisma yet. Counting votes for each link and sorting them on the client would break pagination and affect performance. For now, I'm sticking to sorting by scalar fields.
+Sorting by length of related fields (e.g. links by number of votes) is [not implemented](https://stackoverflow.com/questions/53625619/query-to-get-data-ordered-by-the-number-of-items-in-a-relation) in Prisma yet. Sorting on the client would break pagination and affect performance. For now, I'm sticking to sorting by scalar fields, but I might add total votes per link and sorting to the server schema.
 
 ### Apollo
 
-To make use of [automatic updates](https://www.apollographql.com/docs/react/advanced/caching.html#automatic-updates) in Apollo, I rewrote voting mutations so that they return the updated links instead of votes. As the UI is mapped to links from the GET_FEED query, Apollo is able to figure out when the links have updated and rerender automatically without any update function 🔥
+To make use of [automatic updates](https://www.apollographql.com/docs/react/advanced/caching.html#automatic-updates) in Apollo, I rewrote voting mutations so that they return the updated links instead of votes. As the UI is mapped to links from the GET_FEED query, Apollo is able to figure out when the links have updated and rerender automatically 🔥
 
 By taking advantage of argument nullability, I was able to reuse the same feed query both on the homepage and in /search.
 
