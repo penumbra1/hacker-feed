@@ -10,6 +10,7 @@ const Subscription = require("./resolvers/Subscription");
 const User = require("./resolvers/User");
 const Link = require("./resolvers/Link");
 const Vote = require("./resolvers/Vote");
+const { getUser } = require("./utils");
 
 const resolvers = {
   Query,
@@ -23,9 +24,11 @@ const resolvers = {
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
   resolvers,
-  context: request => ({
-    ...request,
+  context: req => ({
+    ...req,
+    ...getUser(req),
     prisma
   })
 });
+
 server.start(() => console.log(`Server is running on http://localhost:4000`));

@@ -1,5 +1,3 @@
-const { getUserId } = require("../utils");
-
 async function feed(parent, args, context, info) {
   // Getting count via $fragment
   // due to https://github.com/prisma/prisma/issues/3919
@@ -39,21 +37,13 @@ async function feed(parent, args, context, info) {
 }
 
 async function currentUser(parent, args, context) {
-  let userId;
-  try {
-    userId = getUserId(context);
-  } catch (e) {
-    return null; // not authenticated - invalid token
-  }
+  const { userId } = context;
 
-  const user = await context.prisma.user({
+  if (!userId) return null;
+
+  return context.prisma.user({
     id: userId
   });
-  if (!user) {
-    return null; // valid token, but no such user in DB
-  }
-
-  return user;
 }
 
 module.exports = {

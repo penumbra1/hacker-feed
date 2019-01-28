@@ -1,22 +1,19 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { APP_SECRET, getUserId } = require("../utils");
+const { APP_SECRET } = require("../utils");
 
 async function post(parent, args, context, info) {
-  const userId = getUserId(context);
   return context.prisma.createLink(
     {
       url: args.url,
       description: args.description,
-      postedBy: { connect: { id: userId } }
+      postedBy: { connect: { id: context.userId } }
     },
     info
   );
 }
 
 async function remove(parent, args, context, info) {
-  const userId = getUserId(context);
-
   // Getting ownerId via $fragment
   // due to https://github.com/prisma/prisma/issues/3919
   const { id: ownerId } = await context.prisma
@@ -29,16 +26,11 @@ async function remove(parent, args, context, info) {
       }
     `);
 
-  if (ownerId !== userId) {
+  if (ownerId !== context.userId) {
     throw new Error("Link was posted by another user");
   }
 
-  return context.prisma.deleteLink(
-    {
-      id: args.linkId
-    },
-    info
-  );
+  return context.prisma.deleteLink({ id: args.linkId }, info);
 }
 
 async function signup(parent, args, context) {
@@ -75,9 +67,8 @@ async function login(parent, args, context) {
 }
 
 async function vote(parent, args, context, info) {
-  const userId = getUserId(context);
   const voteExists = await context.prisma.$exists.vote({
-    user: { id: userId },
+    user: { id: context.userId },
     link: { id: args.linkId }
   });
   if (voteExists) {
@@ -95,7 +86,7 @@ async function vote(parent, args, context, info) {
             {
               user: {
                 connect: {
-                  id: userId
+                  id: context.userId
                 }
               }
             }
@@ -110,12 +101,11 @@ async function vote(parent, args, context, info) {
 }
 
 async function unvote(parent, args, context, info) {
-  const userId = getUserId(context);
   // Unlike "vote", "votes" query uses VoteWhereInput and doesn't require a vote ID
   const votesByUser = await context.prisma.votes({
     where: {
       link: { id: args.linkId },
-      user: { id: userId }
+      user: { id: context.userId }
     }
   });
   if (!votesByUser[0]) {
