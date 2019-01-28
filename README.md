@@ -23,7 +23,8 @@ Final code can be found [here](https://github.com/howtographql/react-apollo), bu
 17. Add user post stats to the account page
 18. Add moderator role: bans users, hides posts (see [article](https://blog.apollographql.com/authorization-in-graphql-452b1c402a9))
 19. TS?
-20. Expire the token, add a query to check if it's valid on app startup.
+20. Codemod the server to ES6 import statements
+21. Expire the token, add a query to check if it's valid on app startup.
 
 # Notes
 
@@ -31,11 +32,13 @@ Final code can be found [here](https://github.com/howtographql/react-apollo), bu
 
 **NB**: storing context in the same file as components can lead to a circular dependency (see [issue](https://github.com/facebook/react/issues/13969)), e.g. if I place AuthContext in App.js and import it in Header.js, which is itself imported in App.js.
 
-### JSON Web Tokens
+### Auth
 
 This is pretty controversial:
 [Why JWTs Suck as Session Tokens](https://developer.okta.com/blog/2017/08/17/why-jwts-suck-as-session-tokens)
 [Discussion of Please Stop Using Local Storage](https://dev.to/rdegges/please-stop-using-local-storage-1i04/comments). I'm sticking with JWT for now as I'm only storing a userID and there is no other sensitive data involved in the app. I'll also enable token expiry.
+
+On the server, I set auth info on the context to reuse it everywhere. **NB**: Authorization header is [not supported](https://github.com/apollographql/apollo-client/issues/3967) by the ws protocol. For ws subscriptions, the token is passed via connection.context (see footnotes [here](https://github.com/prisma/graphql-yoga#constructorprops-props-graphqlserver)).
 
 ### Routing
 
