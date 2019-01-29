@@ -27,8 +27,8 @@ type Mutation {
   remove(linkId: ID!): Link!
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
-  vote(linkId: ID!): Link!
-  unvote(linkId: ID!): Link!
+  vote(linkId: ID!): Link! @isAuthenticated
+  unvote(linkId: ID!): Link! @isAuthenticated
 }
 
 type Subscription {
