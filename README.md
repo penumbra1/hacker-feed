@@ -4,6 +4,8 @@ Final code can be found [here](https://github.com/howtographql/react-apollo), bu
 
 # Roadmap
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/penumbra1/hacker-feed.svg)](https://greenkeeper.io/)
+
 1. Move secrets to .env ✔️
 2. Experiment with Tachyons, clean up the markup ✔️ (WIP)
 3. Input validation & autocomplete ✔️
